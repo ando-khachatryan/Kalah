@@ -9,24 +9,27 @@ class Side(Enum):
 class KalahGameBase(metaclass=abc.ABCMeta):
 
     def __init__(self, south_pits, north_pits, side_to_move, south_kalah = 0, north_kalah = 0, verbose = False):
-        assert len(south_pits) == len(north_pits)
-        self.pit_count = len(south_pits)
-        self.pits = {}
-        self.pits[Side.SOUTH] = np.array(south_pits)
-        self.pits[Side.NORTH] = np.array(north_pits)
+        pass
+        # assert len(south_pits) == len(north_pits)
+        # self.pit_count = len(south_pits)
+        # self.pits = {}
+        # self.pits[Side.SOUTH] = np.array(south_pits)
+        # self.pits[Side.NORTH] = np.array(north_pits)
+        #
+        # self.kalah = {}
+        # self.kalah[Side.SOUTH] = south_kalah
+        # self.kalah[Side.NORTH] = north_kalah
+        #
+        # self.all_stone_count = self.count_all_stones()
+        #
+        # self.side = side_to_move
+        # self.verbose = verbose
 
-        self.kalah = {}
-        self.kalah[Side.SOUTH] = south_kalah
-        self.kalah[Side.NORTH] = north_kalah
-
-        self.all_stone_count = self.count_all_stones()
-
-        self.side = side_to_move
-        self.verbose = verbose
-
+    @abc.abstractmethod
     def copy(self):
-        return KalahGameBase(self.pits[Side.SOUTH], self.pits[Side.NORTH], self.side,
-                         self.kalah[Side.SOUTH], self.kalah[Side.NORTH])
+        pass
+        # return KalahGameBase(self.pits[Side.SOUTH], self.pits[Side.NORTH], self.side,
+        #                  self.kalah[Side.SOUTH], self.kalah[Side.NORTH])
 
     @classmethod
     def new_game(cls, pits = 6, stones = 6):
@@ -49,27 +52,30 @@ class KalahGameBase(metaclass=abc.ABCMeta):
         #
         # return (False, -2)
 
+    @abc.abstractmethod
     def to_string(self):
-        pits_template = '   {}   \n'
-        s = pits_template.format(self.pits[Side.NORTH][::-1])
-        kalah_str = (str(self.kalah[Side.NORTH])).ljust(len(s) - len(str(self.kalah[Side.SOUTH])))
-        kalah_str += '{}\n'.format(self.kalah[Side.SOUTH])
-        s += kalah_str
-        s += pits_template.format(self.pits[Side.SOUTH])
-        if self.side == Side.SOUTH:
-            ss = 'South'
-        else:
-            ss = 'North'
-        s += '\nTurn: {} #Stones : {} \n'.format(ss, self.count_all_stones())
-        return s
+        pass
+        # pits_template = '   {}   \n'
+        # s = pits_template.format(self.pits[Side.NORTH][::-1])
+        # kalah_str = (str(self.kalah[Side.NORTH])).ljust(len(s) - len(str(self.kalah[Side.SOUTH])))
+        # kalah_str += '{}\n'.format(self.kalah[Side.SOUTH])
+        # s += kalah_str
+        # s += pits_template.format(self.pits[Side.SOUTH])
+        # if self.side == Side.SOUTH:
+        #     ss = 'South'
+        # else:
+        #     ss = 'North'
+        # s += '\nTurn: {} #Stones : {} \n'.format(ss, self.count_all_stones())
+        # return s
 
-
+    @abc.abstractmethod
     def assertCorrect(self):
-        assert self.count_all_stones() == self.all_stone_count
-        assert np.all(self.pits[Side.SOUTH] >= 0)
-        assert np.all(self.pits[Side.NORTH] >= 0)
-        assert self.kalah[Side.SOUTH] >= 0
-        assert self.kalah[Side.NORTH] >= 0
+        pass
+        # assert self.count_all_stones() == self.all_stone_count
+        # assert np.all(self.pits[Side.SOUTH] >= 0)
+        # assert np.all(self.pits[Side.NORTH] >= 0)
+        # assert self.kalah[Side.SOUTH] >= 0
+        # assert self.kalah[Side.NORTH] >= 0
 
     @abc.abstractmethod
     def count_all_stones(self) -> int:
